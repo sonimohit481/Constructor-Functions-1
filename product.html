@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin-product</title>
+    <style>
+        * {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 500;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+        #btn {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            background-color: aquamarine;
+            padding: 10px;
+        }
+
+        #btn button {
+            padding: 10px 30px;
+            border-radius: 15px;
+            background-color: rgb(25, 102, 76);
+            color: white;
+        }
+
+        #btn>button>a {
+            color: aliceblue;
+            text-decoration: none;
+        }
+
+        #productbox{
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            gap: 20px;
+            width: 80%;
+            margin: 20px auto;
+        }
+        #productbox > div{
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+            padding: 10px;
+            text-align: center;
+            border-radius: 20px;
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+            /* border: 1px solid rebeccapurple; */
+        }
+        #productbox >div>img{
+            width: 90%;
+            margin: auto;
+            height: 200px;
+            /* border: 1px solid green; */
+        }
+        
+        #productbox >div>button{
+            width: 40%;
+            margin: auto;
+            padding: 8px;
+            color: rgb(255, 255, 255);;
+            background-color: red;
+            border-radius: 15px;
+            /* height: 100px; */
+            /* border: 1px solid green; */
+        }
+        
+#count{
+    text-align: center;
+
+}
+#count h1, span{
+    font-size: 25px;
+    font-weight: 600;
+}
+    </style>
+</head>
+
+<body>
+    <div id="btn">
+        <a href="admin.html"><button>ADD</button></a>
+        <a href="product.html"><button>SHOW</button></a>
+    </div>
+    <div id="count">
+        <h1>No of Product <span id="productcount">0</span></h1>
+    </div>
+    <div id="productbox">
+
+    </div>
+</body>
+<script>
+    var product=JSON.parse(localStorage.getItem("product"));
+
+    document.querySelector("#productcount").innerText=product.length;
+    console.log(product.length);
+
+    product.forEach((element,eleindex) => {
+        
+        var div=document.createElement("div");
+        div.setAttribute('class','pro');
+        var h3=document.createElement("h3");
+        h3.innerText="Name:"+element.name;
+        var img=document.createElement("img");
+        img.src=element.url;
+        var cat=document.createElement("p")
+        cat.innerText="Sesion: "+element.category;
+        var gen=document.createElement("p")
+        gen.innerText="Gender: "+element.gender;
+        var price=document.createElement("p")
+        price.innerText="Price: "+element.price;
+
+        var rem=document.createElement("button");
+        rem.innerText="Remove";
+        rem.setAttribute("id","remove")
+        rem.addEventListener("click",function(){
+            product.splice(eleindex,1);
+            localStorage.setItem("product",JSON.stringify(product));
+            window.location.reload();
+        });
+        var sold=document.createElement("button");
+        sold.innerText="Sold";
+        sold.setAttribute("id","sold");
+
+        if (element.sold) {
+        sold.style.backgroundColor = 'red'
+      } else {
+        sold.style.backgroundColor = 'green'
+      }
+
+        div.append(h3,img,cat,gen,price,rem,sold);
+        document.querySelector("#productbox").append(div)
+    });
+
+
+</script>
+
+</html>
